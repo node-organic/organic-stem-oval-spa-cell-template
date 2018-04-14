@@ -1,0 +1,23 @@
+{
+  "name": "{{{cell-name}}}",
+  "version": "1.0.0",
+  "dependencies": {
+    "domready": "^1.0.8",
+    "organic-oval": "^4.2.0",
+    "organic-stem-cell": "^2.0.0"
+  },
+  "devDependencies": {
+    "babel-loader": "^7.1.4",
+    "babel-plugin-transform-react-jsx": "^6.24.1",
+    "babel-preset-es2015": "^6.24.1",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "html-webpack-plugin": "^3.2.0",
+    "precss": "^3.1.2",
+    "resolve": "^1.7.1",
+    "virtual-module-webpack-plugin": "^0.4.0",
+    "webpack": "^4.5.0",
+    "webpack-cli": "^2.0.14",
+    "webpack-dev-server": "^3.1.3",
+    "webpack-inject-plugin": "^0.4.0"
+  }
+}
