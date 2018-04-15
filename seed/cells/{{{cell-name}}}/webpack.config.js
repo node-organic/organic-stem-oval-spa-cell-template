@@ -1,20 +1,22 @@
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const organicWebApp = require('./webpack-plugins/organic-webapp')
+const webcell = require('webpack-organic-webcell-configurator')
 const path = require('path')
 
-module.exports = organicWebApp({
+module.exports = webcell({
+  dnaSourcePaths: [
+    path.resolve(__dirname, '../dna'),
+    path.resolve(__dirname, '../../../dna')
+  ]
+}, {
   entry: './index.js',
-  output: {
-    path: path.resolve(__dirname, "dist"),
-  },
   mode: 'development',
   'resolve': {
     'extensions': ['.webpack.js', '.web.js', '.tag', '.js'],
-    'modules': ['web_modules', 'node_modules', 'ui', 'plasma']
+    'modules': ['web_modules', 'node_modules', 'ui']
   },
   'plugins': [
-    new HtmlWebpackPlugin({ template: "index.html" }),
+    new HtmlWebpackPlugin({ template: 'index.html' }),
     new webpack.ProvidePlugin({
       'oval': 'organic-oval'
     })

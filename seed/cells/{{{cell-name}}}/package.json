@@ -4,7 +4,7 @@
   "dependencies": {
     "domready": "^1.0.8",
     "organic-oval": "^4.2.0",
-    "organic-stem-cell": "^2.0.0"
+    "organic-stem-cell": "^2.0.1"
   },
   "devDependencies": {
     "babel-loader": "^7.1.4",
@@ -18,6 +18,7 @@
     "webpack": "^4.5.0",
     "webpack-cli": "^2.0.14",
     "webpack-dev-server": "^3.1.3",
-    "webpack-inject-plugin": "^0.4.0"
+    "webpack-inject-plugin": "^0.4.0",
+    "webpack-organic-webcell-configurator": "^1.0.0"
   }
 }
