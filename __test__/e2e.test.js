@@ -38,7 +38,7 @@ test('the cell works', async () => {
   let child = exec(cmds.join(' && '))
   child.stdout.pipe(process.stdout)
   child.stderr.pipe(process.stderr)
-  await timeout(1000)
+  await timeout(3000)
   let browser = await puppeteer.launch({
     headless: true,
     slowMo: 80,

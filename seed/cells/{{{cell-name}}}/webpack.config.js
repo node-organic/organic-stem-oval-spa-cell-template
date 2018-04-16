@@ -3,6 +3,13 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const webcell = require('webpack-organic-webcell-configurator')
 const path = require('path')
 
+// css
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const postcssImport = require('postcss-import')
+const stylelint = require('stylelint')
+const postcssReporter = require('postcss-reporter')
+const postcssCssnext = require('postcss-cssnext')
+
 module.exports = webcell({
   dnaSourcePaths: [
     path.resolve(__dirname, './dna'),
@@ -11,6 +18,13 @@ module.exports = webcell({
 }, {
   entry: './index.js',
   mode: 'development',
+  devServer: {
+    contentBase: path.resolve(__dirname, './dist'),
+    port: 8080,
+    stats: {
+      children: false
+    }
+  },
   'resolve': {
     'extensions': ['.webpack.js', '.web.js', '.tag', '.js'],
     'modules': ['web_modules', 'node_modules', 'ui']
@@ -19,10 +33,33 @@ module.exports = webcell({
     new HtmlWebpackPlugin({ template: 'index.html' }),
     new webpack.ProvidePlugin({
       'oval': 'organic-oval'
+    }),
+    new MiniCssExtractPlugin({
+      filename: '[name].css',
+      chunkFilename: '[id].css'
     })
   ],
   'module': {
     'rules': [
+      {
+        test: /\.css$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          { loader: 'css-loader', options: { importLoaders: 1 } },
+          {
+            loader: 'postcss-loader',
+            options: {
+              sourceMap: 'inline',
+              plugins: () => [
+                postcssImport(),
+                stylelint(),
+                postcssReporter(),
+                postcssCssnext()
+              ]
+            }
+          }
+        ]
+      },
       {
         test: /\.js$|.tag$/,
         include: /node_modules\/organic-oval/,
