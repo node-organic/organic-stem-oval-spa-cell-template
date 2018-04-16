@@ -9,12 +9,25 @@ const execute = async function ({destDir = process.cwd(), answers} = {}) {
     name: 'organic-stem-oval-spa-cell-template',
     version: '1.0.0'
   })
-  await stack.configureMergeAndUpdateJSON({
+  let coreTemplateExists = false
+  try {
+    coreTemplateExists = await stack.checkUpgrade('organic-stem-core-template', '^1.0.0')
+  } catch (e) {
+    // ignore any errors
+    coreTemplateExists = false
+  }
+  if (!coreTemplateExists) {
+    console.warn('organic-stem-core-template not found...')
+    console.info('force installing organic-angel, angelscripts-help and angelscripts-monorepo')
+    await stack.exec('npm install organic-angel angelscripts-help angelscripts-monorepo --save-dev')
+  }
+  let resulted_answers = await stack.configureMergeAndUpdateJSON({
     sourceDir: path.join(__dirname, 'seed'),
     answers
   })
-  console.info('run npm install...')
-  await stack.exec('npm install')
+  let cellName = resulted_answers['cell-name']
+  console.info(`run npm install on ${cellName}...`)
+  await stack.exec(`npx angel repo cell ${cellName} -- npm install`)
 }
 
 if (module.parent) {

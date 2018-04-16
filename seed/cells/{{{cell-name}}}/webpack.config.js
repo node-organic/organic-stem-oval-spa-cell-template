@@ -5,8 +5,8 @@ const path = require('path')
 
 module.exports = webcell({
   dnaSourcePaths: [
-    path.resolve(__dirname, '../dna'),
-    path.resolve(__dirname, '../../../dna')
+    path.resolve(__dirname, './dna'),
+    path.resolve(__dirname, '../dna')
   ]
 }, {
   entry: './index.js',
