@@ -1,4 +1,4 @@
-# organic-stem-oval-singlepage-webapp-template
+# organic-stem-oval-spa-cell-template
 
 a stack upgrade for oval singlepage webapp cell
 
@@ -7,5 +7,5 @@ a stack upgrade for oval singlepage webapp cell
 ```
 $ mkdir ./myProject
 $ cd ./myProject
-$ npx organic-stem-oval-singlepage-webapp-template
+$ npx organic-stem-oval-spa-cell-template
 ```
