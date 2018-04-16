@@ -27,7 +27,7 @@ module.exports = webcell({
   },
   'resolve': {
     'extensions': ['.webpack.js', '.web.js', '.tag', '.js'],
-    'modules': ['web_modules', 'node_modules', 'ui']
+    'modules': ['web_modules', 'node_modules', path.resolve(__dirname, './node_modules')]
   },
   'plugins': [
     new HtmlWebpackPlugin({ template: 'index.html' }),
@@ -66,7 +66,7 @@ module.exports = webcell({
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['es2015']
+            presets: [require.resolve('babel-preset-es2015')]
           }
         }
       },
@@ -77,9 +77,12 @@ module.exports = webcell({
           loader: 'babel-loader',
           options: {
             plugins: [
-              ['transform-react-jsx', { pragma: 'createElement' }]
+              [
+                require.resolve('babel-plugin-transform-react-jsx'),
+                { pragma: 'createElement' }
+              ]
             ],
-            presets: ['es2015']
+            presets: [require.resolve('babel-preset-es2015')]
           }
         }
       },

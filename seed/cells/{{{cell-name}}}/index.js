@@ -2,7 +2,7 @@ const DNA = window.DNA
 const Cell = require('organic-stem-cell')
 
 require('./index.css')
-require('oval-welcome-message')
+require('./ui/oval-welcome-message')
 
 let cellInstance = new Cell({
   dna: DNA,
