@@ -1,6 +1,10 @@
 {
   "name": "{{{cell-name}}}",
   "version": "1.0.0",
+  "scripts": {
+    "develop": "webpack-dev-server",
+    "build": "webpack"
+  },
   "dependencies": {
     "domready": "^1.0.8",
     "organic-oval": "^4.2.0",
