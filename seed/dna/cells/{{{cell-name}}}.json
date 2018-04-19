@@ -1,3 +1,4 @@
 {
-  "group": "{{{cell-group}}}"
+  "group": "{{{cell-group}}}",
+  "mountPoint": "{{{cell-mount-point}}}"
 }

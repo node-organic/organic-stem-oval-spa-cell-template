@@ -23,7 +23,9 @@ test('stack upgrade', async () => {
     destDir: tempDir,
     answers: {
       'cell-name': 'test',
-      'cell-group': 'default'
+      'cell-group': 'default',
+      'cell-port': 7080,
+      'cell-mount-point': '/'
     }
   })
 })
@@ -47,7 +49,7 @@ test('the cell works', async () => {
   let page = await browser.newPage()
   await page.setViewport({ width, height })
 
-  await page.goto('http://localhost:8080/')
+  await page.goto('http://localhost:7080/')
   await page.waitForSelector('h1')
 
   browser.close()
