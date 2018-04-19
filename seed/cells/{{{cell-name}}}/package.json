@@ -8,7 +8,7 @@
   "dependencies": {
     "domready": "^1.0.8",
     "organic-oval": "^4.2.0",
-    "organic-stem-cell": "^2.0.1"
+    "organic-stem-cell": "^2.0.2"
   },
   "devDependencies": {
     "babel-loader": "^7.1.4",
