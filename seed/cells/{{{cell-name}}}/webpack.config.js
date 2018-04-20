@@ -26,6 +26,9 @@ module.exports = webcell({
   return {
     entry: './index.js',
     mode: 'development',
+    output: {
+      publicPath: dna.cells['{{{cell-name}}}'].mountPoint || '/'
+    },
     devServer: {
       contentBase: path.resolve(__dirname, './dist'),
       port: dna['cell-ports']['{{{cell-name}}}']
