@@ -23,7 +23,7 @@ test('stack upgrade', async () => {
     destDir: tempDir,
     answers: {
       'cell-name': 'test',
-      'cell-group': 'default',
+      'cell-groups': 'default',
       'cell-port': 7080,
       'cell-mount-point': '/'
     }

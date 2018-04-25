@@ -21,10 +21,17 @@ const execute = async function ({destDir = process.cwd(), answers} = {}) {
     console.info('force installing organic-angel, angelscripts-help and angelscripts-monorepo')
     await stack.exec('npm install organic-angel angelscripts-help angelscripts-monorepo --save-dev')
   }
-  let resulted_answers = await stack.configureMergeAndUpdateJSON({
+  console.info('cell-groups can be comma separated list of groups')
+  let resulted_answers = await stack.configure({
     sourceDir: path.join(__dirname, 'seed'),
     answers
   })
+  resulted_answers['cell-groups'] = JSON.stringify(resulted_answers['cell-groups'].split(',').map(v => v.trim()))
+  await stack.merge({
+    sourceDir: path.join(__dirname, 'seed'),
+    answers: resulted_answers
+  })
+  await stack.updateJSON()
   let cellName = resulted_answers['cell-name']
   console.info(`run npm install on ${cellName}...`)
   await stack.exec(`npx angel repo cell ${cellName} -- npm install`)
