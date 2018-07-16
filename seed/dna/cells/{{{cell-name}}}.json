@@ -1,4 +1,9 @@
 {
   "groups": {{{cell-groups}}},
-  "mountPoint": "{{{cell-mount-point}}}"
+  "build": {
+    "domready": {
+      "source": "./plasma/domready",
+      "emitReady": "domready"
+    }
+  }
 }
