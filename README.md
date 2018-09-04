@@ -7,5 +7,5 @@ a stack upgrade for oval singlepage webapp cell
 ```
 $ mkdir ./myProject
 $ cd ./myProject
-$ npx organic-stem-oval-spa-cell-template
+$ npx node-organic/organic-stem-oval-spa-cell-template
 ```

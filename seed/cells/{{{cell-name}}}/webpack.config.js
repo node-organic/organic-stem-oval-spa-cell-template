@@ -1,4 +1,5 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 const webcell = require('webpack-organic-webcell-configurator')
 const path = require('path')
 
@@ -8,8 +9,9 @@ const postcssImport = require('postcss-import')
 const postcssReporter = require('postcss-reporter')
 const postcssCssnext = require('postcss-cssnext')
 
+const REPODIR = path.resolve(__dirname, '../../')
 const repoModules = ['web_modules', 'node_modules', 'lib/client'].map((v) => {
-  return path.join(path.resolve(__dirname, '../../'), v)
+  return path.join(REPODIR, v)
 })
 const packageModules = ['web_modules', 'node_modules'].map((v) => {
   return path.join(__dirname, v)
@@ -24,6 +26,9 @@ module.exports = webcell({
   return {
     entry: './index.js',
     mode: 'development',
+    output: {
+      publicPath: dna['cell-mountpoints']['{{{cell-name}}}']
+    },
     devServer: {
       port: dna['cell-ports']['{{{cell-name}}}']
     },
@@ -36,7 +41,11 @@ module.exports = webcell({
       new MiniCssExtractPlugin({
         filename: '[name].css',
         chunkFilename: '[id].css'
-      })
+      }),
+      new CopyWebpackPlugin([{
+        from: path.join(REPODIR, 'lib/client/public/'),
+        to: 'public/'
+      }])
     ],
     'module': {
       'rules': [
@@ -50,7 +59,9 @@ module.exports = webcell({
               options: {
                 sourceMap: 'inline',
                 plugins: () => [
-                  postcssImport(),
+                  postcssImport({
+                    addModulesDirectories: repoModules.concat(packageModules)
+                  }),
                   postcssReporter(),
                   postcssCssnext()
                 ]

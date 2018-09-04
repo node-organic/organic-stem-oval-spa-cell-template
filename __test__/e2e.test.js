@@ -25,7 +25,7 @@ test('stack upgrade', async () => {
       'cell-name': 'test',
       'cell-groups': 'default',
       'cell-port': 7080,
-      'cell-mount-point': '/'
+      'cell-mountpoint': '/'
     }
   })
 })
