@@ -9,32 +9,31 @@ const postcssImport = require('postcss-import')
 const postcssReporter = require('postcss-reporter')
 const postcssCssnext = require('postcss-cssnext')
 
-const REPODIR = path.resolve(__dirname, '../../')
-const repoModules = ['web_modules', 'node_modules', 'lib/client'].map((v) => {
+const REPODIR = require('lib/full-repo-path')
+const repoModules = ['web_modules', 'node_modules', 'cells/node_modules'].map((v) => {
   return path.join(REPODIR, v)
 })
 const packageModules = ['web_modules', 'node_modules'].map((v) => {
   return path.join(__dirname, v)
 })
+const allModuleDirectories = repoModules.concat(packageModules)
 
 module.exports = webcell({
-  dnaSourcePaths: [
-    path.resolve(__dirname, '../../dna')
-  ],
-  selectBranch: 'cells.{{{cell-name}}}'
-}, function (dna) {
+  dnaSourcePaths: [require('lib/full-dna-path')],
+  selectBranch: '{{{cell-branch}}}'
+}, function (rootDNA) {
   return {
     entry: './index.js',
     mode: 'development',
     output: {
-      publicPath: dna['cell-mountpoints']['{{{cell-name}}}']
+      publicPath: rootDNA['cell-mountpoints']['{{{cell-name}}}']
     },
     devServer: {
-      port: dna['cell-ports']['{{{cell-name}}}']
+      port: rootDNA['cell-ports']['{{{cell-name}}}']
     },
     'resolve': {
       'extensions': ['.webpack.js', '.web.js', '.tag', '.js'],
-      'modules': repoModules.concat(packageModules)
+      'modules': allModuleDirectories
     },
     'plugins': [
       new HtmlWebpackPlugin({ template: 'index.html' }),
@@ -43,7 +42,7 @@ module.exports = webcell({
         chunkFilename: '[id].css'
       }),
       new CopyWebpackPlugin([{
-        from: path.join(REPODIR, 'lib/client/public/'),
+        from: path.join(REPODIR, 'cells/node_modules/lib/client/public/'),
         to: 'public/'
       }])
     ],
@@ -60,7 +59,7 @@ module.exports = webcell({
                 sourceMap: 'inline',
                 plugins: () => [
                   postcssImport({
-                    addModulesDirectories: repoModules.concat(packageModules)
+                    addModulesDirectories: allModuleDirectories
                   }),
                   postcssReporter(),
                   postcssCssnext()
@@ -71,20 +70,17 @@ module.exports = webcell({
         },
         {
           test: /\.tag$/,
-          exclude: /node_modules/,
           use: {
             loader: 'babel-loader',
             options: {
-              plugins: ['babel-plugin-transform-react-jsx']
+              plugins: [ require.resolve('babel-plugin-transform-react-jsx') ]
             }
           }
         },
         {
           test: /\.tag$/,
-          exclude: /node_modules/,
           use: [
-            {loader: 'organic-oval/webpack/oval-loader'},
-            {loader: 'organic-oval/webpack/oval-control-statements-loader'}
+            { loader: 'organic-oval/webpack/oval-loader' }
           ]
         }
       ]

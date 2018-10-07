@@ -5,11 +5,23 @@ const exec = require('child_process').exec
 const terminate = require('terminate')
 const puppeteer = require('puppeteer')
 
+const generateCore = require('organic-stem-core-template')
+
 const timeout = function (ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
 
 let tempDir = path.join(os.tmpdir(), 'test-stack-upgrade-' + Math.random())
+
+beforeAll(async () => {
+  jest.setTimeout(60 * 1000)
+  await generateCore({
+    destDir: tempDir,
+    answers: {
+      'project-name': 'test'
+    }
+  })
+})
 
 process.on('unhandledRejection', error => {
   console.error(error.stack)
@@ -23,9 +35,10 @@ test('stack upgrade', async () => {
     destDir: tempDir,
     answers: {
       'cell-name': 'test',
-      'cell-groups': 'default',
+      'cell-groups': ['default'],
       'cell-port': 7080,
-      'cell-mountpoint': '/'
+      'cell-mountpoint': '/',
+      'cwd': 'webapps/test-v1'
     }
   })
 })
@@ -34,8 +47,8 @@ test('the cell works', async () => {
   const width = 1920
   const height = 1080
   let cmds = [
-    'cd ' + tempDir + '/cells/test',
-    'npx webpack-dev-server'
+    'cd ' + tempDir + '/cells/webapps/test-v1',
+    'npm run develop'
   ]
   let child = exec(cmds.join(' && '))
   child.stdout.pipe(process.stdout)

@@ -11,6 +11,6 @@ let cellInstance = new Cell({
 window.plasma = cellInstance.plasma
 window.plasma.on('domready', () => {
   require('./ui/oval-welcome-message')
-  require('common-header')
+  require('lib/client/common-header')
 })
 cellInstance.start()
